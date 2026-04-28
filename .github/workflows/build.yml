@@ -14,9 +14,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Show repo structure
-        run: find . -type f | head -30
-
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -25,61 +22,33 @@ jobs:
       - name: Install system deps
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq \
-            build-essential git zip unzip \
-            libffi-dev libssl-dev \
-            libpng-dev libjpeg-dev \
-            zlib1g-dev autoconf libtool \
-            pkg-config cmake \
-            openjdk-17-jdk \
-            ccache
-
-      - name: Cache Buildozer
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.buildozer
-            ~/.cache/pip
-          key: buildozer-v4
-          restore-keys: buildozer-
+          sudo apt-get install -y -qq build-essential git zip unzip libffi-dev libssl-dev libpng-dev libjpeg-dev zlib1g-dev autoconf libtool pkg-config cmake openjdk-17-jdk ccache
 
       - name: Install Buildozer
         run: pip install buildozer cython pillow
 
-      - name: Find buildozer.spec and build
+      - name: Create icons
         run: |
-          # Find where buildozer.spec is
-          SPEC=$(find . -name "buildozer.spec" | head -1)
-          echo "Found spec at: $SPEC"
-          BUILD_DIR=$(dirname "$SPEC")
-          echo "Build dir: $BUILD_DIR"
-          
-          cd "$BUILD_DIR"
-          
-          # Create icons
-          python3 - << 'PYEOF'
+          mkdir -p app/assets
+          python3 -c "
           from PIL import Image, ImageDraw
           import os
-          os.makedirs("app/assets", exist_ok=True)
-          img = Image.new("RGBA", (512,512), (10,10,18,255))
+          img = Image.new('RGBA', (512,512), (10,10,18,255))
           draw = ImageDraw.Draw(img)
           draw.ellipse([40,40,472,472], fill=(30,15,50,255))
           draw.ellipse([60,60,452,452], outline=(200,80,245,255), width=8)
-          img.save("app/assets/edith_icon.png")
-          splash = Image.new("RGB", (1080,1920), (10,10,18))
-          splash.save("app/assets/splash.png")
-          print("Icons done!")
-          PYEOF
-          
-          # Build APK
-          buildozer android debug 2>&1
+          img.save('app/assets/edith_icon.png')
+          splash = Image.new('RGB', (1080,1920), (10,10,18))
+          splash.save('app/assets/splash.png')
+          print('Icons done!')
+          "
 
-      - name: Find APK
-        run: find . -name "*.apk" | head -5
+      - name: Build APK
+        run: buildozer android debug 2>&1
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: EDITH-APK
-          path: "**/*.apk"
+          path: bin/*.apk
           retention-days: 30
