@@ -14,6 +14,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Show repo structure
+        run: find . -type f | head -30
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -37,15 +40,23 @@ jobs:
           path: |
             ~/.buildozer
             ~/.cache/pip
-          key: buildozer-${{ hashFiles('edith_android_v2/buildozer.spec') }}-v3
+          key: buildozer-v4
           restore-keys: buildozer-
 
       - name: Install Buildozer
         run: pip install buildozer cython pillow
 
-      - name: Create icons
-        working-directory: edith_android_v2
+      - name: Find buildozer.spec and build
         run: |
+          # Find where buildozer.spec is
+          SPEC=$(find . -name "buildozer.spec" | head -1)
+          echo "Found spec at: $SPEC"
+          BUILD_DIR=$(dirname "$SPEC")
+          echo "Build dir: $BUILD_DIR"
+          
+          cd "$BUILD_DIR"
+          
+          # Create icons
           python3 - << 'PYEOF'
           from PIL import Image, ImageDraw
           import os
@@ -54,20 +65,14 @@ jobs:
           draw = ImageDraw.Draw(img)
           draw.ellipse([40,40,472,472], fill=(30,15,50,255))
           draw.ellipse([60,60,452,452], outline=(200,80,245,255), width=8)
-          draw.ellipse([100,100,412,412], fill=(50,20,80,200))
           img.save("app/assets/edith_icon.png")
           splash = Image.new("RGB", (1080,1920), (10,10,18))
-          draw2 = ImageDraw.Draw(splash)
-          cx,cy = 540,800
-          draw2.ellipse([cx-250,cy-250,cx+250,cy+250], outline=(200,80,245), width=6)
-          draw2.ellipse([cx-150,cy-150,cx+150,cy+150], fill=(30,15,50))
           splash.save("app/assets/splash.png")
-          print("Icons created!")
+          print("Icons done!")
           PYEOF
-
-      - name: Build APK
-        working-directory: edith_android_v2
-        run: buildozer android debug 2>&1
+          
+          # Build APK
+          buildozer android debug 2>&1
 
       - name: Find APK
         run: find . -name "*.apk" | head -5
@@ -76,5 +81,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: EDITH-APK
-          path: edith_android_v2/bin/*.apk
+          path: "**/*.apk"
           retention-days: 30
