@@ -7,7 +7,7 @@ source.include_exts = py,png,jpg,html,json,txt,env,ico
 source.include_patterns = assets/*,assets/**/*
 version = 2.0
 
-requirements = python3==3.11.6,
+requirements = python3,
     kivy==2.3.0,
     pillow,
     fastapi==0.111.0,
