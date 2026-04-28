@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<meta name="allow" content="autoplay"/>
+<title>EDITH — Even Dead I'm The Hero</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --a:#c850f5;--a2:#5b8df5;--a3:#f550a8;
+  --glow:rgba(200,80,245,.5);
+  --bg:#08080e;--bg2:#0d0d1a;--bg3:#131320;--bg4:#1a1a2c;--bg5:#0f0f1e;
+  --lbg:#0b0b14;--rbg:#0c0c18;
+  --br:rgba(255,255,255,.07);--text:#eeeaff;--t2:#8880b8;--t3:#5550a0;
+  --mu:linear-gradient(135deg,#7b3fcc,#c850f5);
+  --mai:rgba(255,255,255,.05);--maib:rgba(200,80,245,.15);
+  --ibg:rgba(255,255,255,.04);--ibr:rgba(200,80,245,.25);--sh:rgba(0,0,0,.75);
+}
+[data-theme=light]{
+  --bg:#f0eefb;--bg2:#e8e4f8;--bg3:#fff;--bg4:#f6f4ff;--bg5:#ece8f8;
+  --lbg:#e4e0f4;--rbg:#eae6f6;
+  --br:rgba(130,90,210,.14);--text:#18102e;--t2:#5e4a9e;--t3:#9080cc;
+  --mu:linear-gradient(135deg,#8b5cf6,#c850f5);
+  --mai:rgba(255,255,255,.9);--maib:rgba(140,70,220,.15);
+  --ibg:rgba(255,255,255,.8);--ibr:rgba(140,70,220,.3);--sh:rgba(80,40,160,.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);transition:background .35s,color .35s}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:rgba(200,80,245,.2);border-radius:2px}
+#sf{position:fixed;inset:0;pointer-events:none;z-index:0}
+[data-theme=light] #sf{opacity:0}
+
+/* ── LAYOUT ── */
+#app{display:grid;grid-template-columns:62px 1fr 275px;grid-template-rows:60px 1fr;height:100svh;position:relative;z-index:1}
+@media(max-width:720px){#app{grid-template-columns:0 1fr}#lsb,#rsb{display:none}#mobnav{display:flex}}
+
+/* ── TOP BAR ── */
+#tb{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:var(--bg2);border-bottom:1px solid var(--br);z-index:20;gap:10px}
+.logo svg{width:42px;height:24px}
+.brand{text-align:center}
+.bname{font-family:'Orbitron',monospace;font-size:1.65rem;font-weight:900;background:linear-gradient(135deg,var(--a),var(--a2),var(--a3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:5px}
+.bsub{font-size:.58rem;color:var(--t2);letter-spacing:1px}
+.tbr{display:flex;align-items:center;gap:8px}
+.upill{display:flex;align-items:center;gap:7px;padding:4px 11px;border-radius:20px;background:var(--bg4);border:1px solid var(--br);cursor:pointer;transition:all .2s;user-select:none}
+.upill:hover{border-color:var(--a)}
+.uav{width:24px;height:24px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:#fff;overflow:hidden;background:linear-gradient(135deg,#7b3fcc,#c850f5)}
+.uav img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
+.uname{font-size:.73rem;font-weight:600;color:var(--text);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tbtn{width:30px;height:30px;border-radius:50%;border:1px solid var(--br);background:var(--bg4);color:var(--t2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:all .2s;flex-shrink:0;user-select:none}
+.tbtn:hover{border-color:var(--a);color:var(--a);background:rgba(200,80,245,.08)}
+.tog{width:44px;height:22px;background:var(--bg4);border:1px solid var(--br);border-radius:11px;cursor:pointer;position:relative;flex-shrink:0;user-select:none}
+.tog::after{content:'';position:absolute;width:14px;height:14px;border-radius:50%;top:3px;left:4px;background:linear-gradient(135deg,var(--a),var(--a2));transition:transform .3s cubic-bezier(.34,1.56,.64,1);box-shadow:0 0 6px var(--glow)}
+[data-theme=light] .tog::after{transform:translateX(20px)}
+
+/* ── LEFT SIDEBAR ── */
+#lsb{background:var(--lbg);border-right:1px solid var(--br);display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:9px;overflow-y:auto;z-index:5}
+#lsb::-webkit-scrollbar{display:none}
+.addbtn{width:34px;height:34px;border-radius:50%;border:2px dashed var(--t3);background:transparent;color:var(--t3);font-size:17px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;flex-shrink:0}
+.addbtn:hover{border-color:var(--a);color:var(--a);transform:scale(1.1)}
+.av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;cursor:pointer;transition:all .25s;border:2px solid transparent;flex-shrink:0}
+.av:hover{transform:scale(1.1)}.av.active{border-color:var(--a);box-shadow:0 0 10px var(--glow)}
+
+/* ── MAIN ── */
+#main{display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+[data-theme=light] #main{background:linear-gradient(180deg,#f4f1fe,#ebe8fb)}
+
+/* ORB */
+#oa{display:flex;justify-content:center;padding:14px 0 8px;flex-shrink:0}
+.ow{position:relative;width:148px;height:148px;cursor:pointer;display:flex;align-items:center;justify-content:center;user-select:none}
+@media(max-width:720px){.ow{width:118px;height:118px}}
+.oring{position:absolute;border-radius:50%;animation:spin 4s linear infinite}
+.oring:nth-child(1){inset:0;background:conic-gradient(from 0deg,transparent,#c850f5,transparent,#5b8df5,transparent,#f550a8,transparent);filter:blur(2px)}
+.oring:nth-child(2){inset:7px;background:conic-gradient(from 120deg,transparent,#5b8df5,transparent,#f550a8,transparent,#c850f5,transparent);animation-direction:reverse;animation-duration:3s;filter:blur(1px)}
+.oring:nth-child(3){inset:14px;background:conic-gradient(from 240deg,transparent,#f550a8,transparent,#c850f5,transparent,#5b8df5,transparent);animation-duration:5s;filter:blur(2px)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ocore{position:absolute;inset:20px;border-radius:50%;background:radial-gradient(ellipse at 35% 35%,#5bc8f5,#3a7fd4 30%,#7b3fcc 60%,#1a1035);box-shadow:0 0 30px rgba(200,80,245,.55),inset 0 0 20px rgba(91,140,245,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:box-shadow .3s}
+.olbl{font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;color:#fff;letter-spacing:2px;text-shadow:0 0 8px #fff}
+.ost{font-size:.58rem;color:rgba(255,255,255,.8);letter-spacing:.5px;text-align:center;padding:0 4px}
+.pulse{position:absolute;border-radius:50%;border:1.5px solid;animation:pul 2s ease-in-out infinite;pointer-events:none}
+.pulse:nth-child(5){inset:-10px;border-color:rgba(200,80,245,.3)}.pulse:nth-child(6){inset:-20px;border-color:rgba(91,140,245,.2);animation-delay:.5s}.pulse:nth-child(7){inset:-31px;border-color:rgba(245,80,168,.15);animation-delay:1s}
+@keyframes pul{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.05);opacity:.2}}
+.ow.L .oring:nth-child(1){animation-duration:1s}.ow.L .oring:nth-child(2){animation-duration:.85s}
+.ow.L .ocore{box-shadow:0 0 55px rgba(200,80,245,.95),inset 0 0 30px rgba(91,140,245,.5)}
+.ow.T .ocore{animation:tpul .8s ease-in-out infinite}
+.ow.S .ocore{box-shadow:0 0 50px rgba(91,140,245,.85),inset 0 0 26px rgba(200,80,245,.4)}
+@keyframes tpul{0%,100%{box-shadow:0 0 30px rgba(200,80,245,.55)}50%{box-shadow:0 0 55px rgba(91,140,245,.9)}}
+
+/* MESSAGES */
+#msgs{flex:1;overflow-y:auto;overflow-x:hidden;padding:4px 16px 8px;display:flex;flex-direction:column;gap:8px;scroll-behavior:smooth}
+@media(max-width:720px){#msgs{padding:4px 10px 64px}}
+.mr{display:flex;align-items:flex-end;gap:6px;animation:mi .27s cubic-bezier(.34,1.56,.64,1)}
+.mr.user{flex-direction:row-reverse}
+@keyframes mi{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+.mico{width:24px;height:24px;flex-shrink:0}.mico svg{width:100%;height:100%}
+.bb{max-width:70%;padding:10px 13px;border-radius:14px;font-size:.86rem;line-height:1.65;word-break:break-word}
+.bb.ai{background:var(--mai);border:1px solid var(--maib);border-bottom-left-radius:3px;backdrop-filter:blur(10px);color:var(--text)}
+.bb.user{background:var(--mu);border-bottom-right-radius:3px;color:#fff;box-shadow:0 3px 12px rgba(200,80,245,.3)}
+.mmeta{font-size:.59rem;font-weight:700;letter-spacing:.8px;margin-bottom:3px;display:flex;align-items:center;gap:4px}
+.tag{padding:1px 5px;border-radius:3px;font-size:.57rem;font-weight:800;letter-spacing:.8px}
+.tag.e{background:linear-gradient(90deg,#f0a030,#f06030);color:#fff}
+
+.tag.spd{background:rgba(16,185,129,.15);color:#10b981;border:1px solid rgba(16,185,129,.2)}
+.uw{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.un{font-size:.6rem;color:var(--t2);text-align:right}
+/* markdown */
+.bb.ai h1,.bb.ai h2,.bb.ai h3{font-weight:700;margin:.4em 0 .2em}
+.bb.ai h1{font-size:.98rem}.bb.ai h2{font-size:.92rem}.bb.ai h3{font-size:.86rem}
+.bb.ai p{margin:.22em 0}.bb.ai p:first-child,.bb.ai p:last-child{margin:0}
+.bb.ai ul,.bb.ai ol{padding-left:1.2em;margin:.22em 0}.bb.ai li{margin:.1em 0}
+.bb.ai code{background:rgba(200,80,245,.15);border:1px solid rgba(200,80,245,.2);padding:1px 4px;border-radius:3px;font-family:monospace;font-size:.77rem}
+.bb.ai pre{background:rgba(0,0,0,.45);border:1px solid var(--maib);border-radius:7px;padding:9px;overflow-x:auto;margin:.3em 0}
+.bb.ai pre code{background:none;border:none;padding:0;font-size:.76rem}
+.bb.ai strong{font-weight:700;color:var(--a)}.bb.ai em{font-style:italic;color:var(--t2)}
+.bb.ai a{color:var(--a2);text-decoration:none}.bb.ai blockquote{border-left:2px solid var(--a);padding-left:.7em;margin:.3em 0;color:var(--t2);font-style:italic}
+.dots{display:flex;gap:4px;padding:2px 0}
+.dots span{width:6px;height:6px;border-radius:50%;background:var(--a);animation:dtc 1.4s ease-in-out infinite}
+.dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
+@keyframes dtc{0%,80%,100%{transform:scale(.5);opacity:.4}40%{transform:scale(1);opacity:1}}
+
+/* BARS */
+#spkbar{height:0;overflow:hidden;transition:height .25s;display:flex;align-items:center;gap:8px;padding:0 16px;flex-shrink:0}
+#spkbar.on{height:26px}
+.sklbl{font-size:.67rem;color:var(--a2);font-weight:600;white-space:nowrap}
+.skwave{display:flex;gap:2px;align-items:center;flex:1}
+.skwave span{flex:1;max-width:3px;border-radius:2px;background:linear-gradient(to top,var(--a2),var(--a));animation:skwv .7s ease-in-out infinite}
+.skwave span:nth-child(1){height:3px}.skwave span:nth-child(2){height:7px;animation-delay:.06s}.skwave span:nth-child(3){height:12px;animation-delay:.12s}.skwave span:nth-child(4){height:17px;animation-delay:.18s}.skwave span:nth-child(5){height:12px;animation-delay:.24s}.skwave span:nth-child(6){height:7px;animation-delay:.3s}.skwave span:nth-child(7){height:3px;animation-delay:.36s}
+@keyframes skwv{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
+.skstop{width:20px;height:20px;border-radius:50%;background:rgba(200,80,245,.15);border:1px solid rgba(200,80,245,.3);color:var(--a);font-size:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+#vbar{height:0;overflow:hidden;transition:height .25s;display:flex;align-items:center;justify-content:center;gap:7px;font-size:.7rem;color:var(--a);font-weight:600;flex-shrink:0}
+#vbar.on{height:22px}
+.vw{display:flex;gap:2px;align-items:center}
+.vw span{width:2px;border-radius:1px;background:var(--a);animation:vwv .55s ease-in-out infinite}
+.vw span:nth-child(1){height:5px}.vw span:nth-child(2){height:10px;animation-delay:.1s}.vw span:nth-child(3){height:15px;animation-delay:.2s}.vw span:nth-child(4){height:10px;animation-delay:.1s}.vw span:nth-child(5){height:5px}
+@keyframes vwv{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
+
+/* INPUT BAR */
+#ibar{padding:8px 14px 13px;flex-shrink:0}
+.iw{display:flex;align-items:center;gap:7px;background:var(--ibg);border:1px solid var(--ibr);border-radius:22px;padding:7px 9px;backdrop-filter:blur(20px);transition:border-color .25s,box-shadow .25s}
+.iw:focus-within{border-color:var(--a);box-shadow:0 0 0 3px rgba(200,80,245,.1)}
+#tinput{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:'Nunito',sans-serif;font-size:.86rem;font-weight:500;caret-color:var(--a);min-width:0}
+#tinput::placeholder{color:var(--t3)}
+.ib{width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s;flex-shrink:0;user-select:none}
+.ib.mic{background:transparent;color:var(--a);border:1px solid rgba(200,80,245,.3)}.ib.mic:hover{background:rgba(200,80,245,.1);transform:scale(1.1)}
+.ib.mic.on{background:rgba(200,80,245,.2);border-color:var(--a);animation:mg 1s infinite}
+@keyframes mg{0%,100%{box-shadow:0 0 6px var(--glow)}50%{box-shadow:0 0 15px rgba(200,80,245,.7)}}
+.ib.send{background:linear-gradient(135deg,var(--a2),var(--a));color:#fff;box-shadow:0 2px 10px rgba(200,80,245,.35)}
+.ib.send:hover{transform:scale(1.1) rotate(15deg)}.ib.send:active{transform:scale(.95)}.ib.send:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+/* ── RIGHT SIDEBAR ── */
+#rsb{background:var(--rbg);border-left:1px solid var(--br);display:flex;flex-direction:column;z-index:5}
+.rh{padding:12px 14px;border-bottom:1px solid var(--br);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.rht{font-size:.88rem;font-weight:700;color:var(--text)}.rhl{display:flex;align-items:center;gap:7px;color:var(--t2)}
+.cb{width:24px;height:24px;border-radius:5px;background:var(--bg4);border:1px solid var(--br);color:var(--t2);font-size:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.cb:hover{color:var(--a);border-color:var(--a)}
+.rn{padding:6px 8px;flex-shrink:0}
+.ni{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:all .2s;color:var(--t2);font-size:.82rem;font-weight:600}
+.ni:hover{background:rgba(200,80,245,.08);color:var(--text)}.ni svg{width:15px;height:15px;flex-shrink:0}
+.btag{margin-left:auto;font-size:.63rem;padding:1px 6px;border-radius:10px;font-weight:700}
+.hs{flex:1;overflow-y:auto;padding:0 8px}
+.hh{display:flex;align-items:center;justify-content:space-between;padding:6px 10px 3px;cursor:pointer;color:var(--t2);font-size:.74rem;font-weight:700;letter-spacing:.5px;user-select:none}
+.chev{transition:transform .3s;font-size:10px}.chev.on{transform:rotate(180deg)}
+.cl{display:flex;flex-direction:column;gap:1px}
+.ci{display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:8px;cursor:pointer;transition:all .2s;color:var(--t2);font-size:.8rem;font-weight:600}
+.ci:hover{background:rgba(200,80,245,.06);color:var(--text)}.ci.active{background:rgba(200,80,245,.12);color:var(--text)}
+.cd{width:8px;height:8px;border-radius:50%;flex-shrink:0;border:2px solid}
+.cinfo{flex:1;min-width:0}.ct{font-weight:600;font-size:.79rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cp{font-size:.66rem;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ctm{font-size:.62rem;color:var(--t3);flex-shrink:0}
+
+/* PROFILE BOTTOM */
+#up{margin-top:auto;padding:9px 11px;border-top:1px solid var(--br);flex-shrink:0;position:relative}
+.pd{position:absolute;bottom:68px;left:8px;right:8px;background:var(--bg4);border:1px solid var(--br);border-radius:12px;overflow:hidden;opacity:0;pointer-events:none;transform:translateY(7px);transition:all .25s cubic-bezier(.34,1.56,.64,1);z-index:100;box-shadow:0 -8px 30px var(--sh)}
+.pd.on{opacity:1;pointer-events:all;transform:translateY(0)}
+.di{display:flex;align-items:center;gap:8px;padding:10px 12px;cursor:pointer;transition:background .15s;color:var(--t2);font-size:.8rem;font-weight:600}
+.di:hover{background:rgba(200,80,245,.1);color:var(--text)}.di.danger{color:#ef4444}.di.danger:hover{background:rgba(239,68,68,.1)}
+.di svg{width:13px;height:13px;flex-shrink:0}.ddiv{height:1px;background:var(--br);margin:2px 0}
+.pb{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:9px;cursor:pointer;transition:all .2s;background:var(--bg4);border:1px solid var(--br);width:100%}
+.pb:hover{border-color:var(--a);background:rgba(200,80,245,.06)}
+.pavbox{width:32px;height:32px;border-radius:50%;overflow:hidden;flex-shrink:0;box-shadow:0 0 8px rgba(200,80,245,.35);background:linear-gradient(135deg,#7b3fcc,#c850f5);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#fff}
+.pavbox img{width:100%;height:100%;object-fit:cover;display:block}
+.pi{flex:1;min-width:0}.pn{font-size:.82rem;font-weight:700;color:var(--text)}.pr{font-size:.65rem;color:var(--t2)}
+.ps{width:7px;height:7px;border-radius:50%;background:#22c55e;flex-shrink:0;box-shadow:0 0 4px rgba(34,197,94,.6)}
+
+/* MOBILE NAV */
+#mobnav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--br);padding:7px;gap:4px;z-index:50;justify-content:space-around}
+.mn{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;color:var(--t2);font-size:.59rem;font-weight:600;padding:5px 10px;border-radius:8px;transition:all .2s}
+.mn svg{width:19px;height:19px}.mn.active,.mn:hover{color:var(--a)}
+
+/* ══════════════ OVERLAYS ══════════════ */
+.overlay{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.85);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.overlay.on{opacity:1;pointer-events:all}
+.panel{background:var(--bg3);border:1px solid var(--br);border-radius:18px;width:440px;max-width:94vw;max-height:90svh;overflow-y:auto;transform:scale(.9);transition:transform .3s cubic-bezier(.34,1.56,.64,1);box-shadow:0 20px 60px var(--sh)}
+.overlay.on .panel{transform:scale(1)}
+.ph{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 0}
+.pt{font-family:'Orbitron',monospace;font-size:.95rem;font-weight:700;color:var(--a)}
+.pclose{width:26px;height:26px;border-radius:50%;background:var(--bg4);border:1px solid var(--br);color:var(--t2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;transition:all .2s}
+.pclose:hover{border-color:var(--a);color:var(--a)}
+.pb2{padding:16px 20px 20px}
+.psub{font-size:.78rem;color:var(--t2);margin-bottom:16px;line-height:1.5}
+.fl{font-size:.7rem;font-weight:700;color:var(--t2);letter-spacing:.4px;margin-bottom:4px;display:block}
+.fi{width:100%;padding:9px 12px;background:var(--bg4);border:1px solid var(--br);border-radius:8px;color:var(--text);font-family:'Nunito',sans-serif;font-size:.84rem;outline:none;transition:border-color .2s;margin-bottom:11px}
+.fi:focus{border-color:var(--a)}.fi::placeholder{color:var(--t3)}
+.fsel{width:100%;padding:9px 12px;background:var(--bg4);border:1px solid var(--br);border-radius:8px;color:var(--text);font-family:'Nunito',sans-serif;font-size:.84rem;outline:none;cursor:pointer;margin-bottom:11px}
+.fta{width:100%;padding:9px 12px;background:var(--bg4);border:1px solid var(--br);border-radius:8px;color:var(--text);font-family:'Nunito',sans-serif;font-size:.84rem;outline:none;resize:vertical;min-height:72px;margin-bottom:11px;transition:border-color .2s}
+.fta:focus{border-color:var(--a)}.fta::placeholder{color:var(--t3)}
+.btnP{width:100%;padding:11px;background:linear-gradient(135deg,var(--a2),var(--a));border:none;border-radius:8px;color:#fff;font-family:'Orbitron',monospace;font-size:.76rem;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .2s;box-shadow:0 3px 14px rgba(200,80,245,.4);margin-top:4px}
+.btnP:hover{opacity:.9;transform:translateY(-1px)}
+.btnS{width:100%;padding:9px;background:transparent;border:1px solid var(--br);border-radius:8px;color:var(--t2);font-family:'Nunito',sans-serif;font-size:.8rem;cursor:pointer;transition:all .2s;margin-top:6px}
+.btnS:hover{border-color:var(--t2);color:var(--text)}
+.btnGoogle{width:100%;padding:11px 14px;background:#fff;border:1.5px solid #ddd;border-radius:8px;color:#333;font-family:'Nunito',sans-serif;font-size:.86rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:9px}
+.btnGoogle:hover{background:#f7f7f7;border-color:#bbb;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.btnMS{width:100%;padding:11px 14px;background:#0078d4;border:none;border-radius:8px;color:#fff;font-family:'Nunito',sans-serif;font-size:.86rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:9px}
+.btnMS:hover{background:#106ebe;box-shadow:0 2px 8px rgba(0,120,212,.3)}
+.fb{font-size:.73rem;padding:6px 10px;border-radius:7px;display:none;margin-top:5px}
+.fb.ok{display:block;background:rgba(16,185,129,.1);color:#10b981;border:1px solid rgba(16,185,129,.2)}
+.fb.err{display:block;background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2)}
+.ordiv{display:flex;align-items:center;gap:9px;margin:11px 0;color:var(--t3);font-size:.7rem}
+.ordiv::before,.ordiv::after{content:'';flex:1;height:1px;background:var(--br)}
+/* Settings tabs */
+.stabs{display:flex;gap:2px;background:var(--bg5);border-radius:9px;padding:3px;margin-bottom:14px;flex-wrap:wrap}
+.stab{flex:1;min-width:65px;padding:6px 5px;border-radius:7px;border:none;background:transparent;color:var(--t2);font-family:'Nunito',sans-serif;font-size:.71rem;font-weight:700;cursor:pointer;transition:all .2s;text-align:center;white-space:nowrap}
+.stab.active{background:var(--bg3);color:var(--a);box-shadow:0 1px 4px rgba(0,0,0,.3)}.stab:hover:not(.active){color:var(--text)}
+.stabc{display:none}.stabc.active{display:block}
+.trrow{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.trlbl{font-size:.71rem;color:var(--t2);font-weight:600;width:86px;flex-shrink:0}
+.trsl{flex:1;accent-color:var(--a)}
+.trv{font-size:.71rem;color:var(--a);font-weight:700;width:36px;text-align:right;flex-shrink:0}
+.vtest{display:flex;align-items:center;gap:9px;padding:9px 12px;background:var(--bg4);border:1px solid var(--br);border-radius:8px;margin-top:7px}
+.vtname{flex:1;font-size:.8rem;font-weight:600;color:var(--text)}
+.vtbtn{padding:6px 12px;background:linear-gradient(135deg,#059669,#10b981);border:none;border-radius:6px;color:#fff;font-size:.73rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .2s;white-space:nowrap}
+.vtbtn:hover{opacity:.9}
+.ebox{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:7px;padding:8px 11px;color:#f87171;font-size:.81rem;line-height:1.5}
+.cur{display:inline-block;width:2px;height:.85em;background:var(--a);margin-left:2px;vertical-align:middle;animation:cb .7s infinite}
+@keyframes cb{0%,100%{opacity:1}50%{opacity:0}}
+#toast{position:fixed;bottom:78px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--bg4);border:1px solid var(--br);border-radius:8px;padding:8px 16px;font-size:.8rem;font-weight:600;color:var(--text);opacity:0;pointer-events:none;transition:all .3s;z-index:400;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:720px){#toast{bottom:66px}}
+</style>
+</head>
+<body>
+<canvas id="sf"></canvas>
+
+<!-- ══ LOGIN ══ -->
+<div class="overlay" id="oLogin">
+  <div class="panel" style="max-width:360px">
+    <div class="pb2" style="padding-top:28px;text-align:center">
+      <div style="font-family:'Orbitron',monospace;font-size:1.9rem;font-weight:900;background:linear-gradient(135deg,#c850f5,#5b8df5,#f550a8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:5px;margin-bottom:3px">EDITH</div>
+      <div style="font-size:.72rem;color:var(--t2);margin-bottom:22px">Even Dead I'm The Hero</div>
+      <button class="btnGoogle" id="btnGoogle">
+        <svg viewBox="0 0 24 24" width="18"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Continue with Google
+      </button>
+      <button class="btnMS" id="btnMS">
+        <svg viewBox="0 0 24 24" width="18" fill="white"><path d="M11.4 2H2v9.4h9.4V2zm10.6 0h-9.4v9.4H22V2zM11.4 12.6H2V22h9.4v-9.4zm10.6 0h-9.4V22H22v-9.4z"/></svg>
+        Continue with Microsoft
+      </button>
+      <div class="ordiv">or</div>
+      <button class="btnS" id="btnGuest">Continue as Guest</button>
+      <div class="fb" id="fbLogin"></div>
+      <p style="font-size:.67rem;color:var(--t3);margin-top:12px;line-height:1.5">Login saves your settings and voice preferences across sessions.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SETUP (one-time key) ══ -->
+<div class="overlay" id="oSetup">
+  <div class="panel" style="max-width:390px">
+    <div class="pb2" style="padding-top:22px">
+      <div style="font-family:'Orbitron',monospace;font-size:.9rem;font-weight:700;color:#10b981;margin-bottom:6px">ONE-TIME SETUP</div>
+      <p class="psub">You're signed in! Connect EDITH to Groq AI. Paste your free key once — saved securely, never asked again.</p>
+      <div style="background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.2);border-radius:8px;padding:11px 13px;font-size:.76rem;color:var(--t2);margin-bottom:14px;line-height:1.6">
+        <strong style="color:#10b981">Free Groq key in 60 seconds:</strong><br>
+        1. Visit <a href="https://console.groq.com/keys" target="_blank" style="color:#10b981">console.groq.com/keys</a><br>
+        2. Sign up free → "Create API Key"<br>
+        3. Copy and paste it below
+      </div>
+      <label class="fl">API KEY</label>
+      <input class="fi" id="setupKey" type="password" placeholder="gsk_…"/>
+      <label class="fl">AI MODEL</label>
+      <select class="fsel" id="setupModel">
+        <option value="llama-3.3-70b-versatile">Llama 3.3 70B — smartest ⚡</option>
+        <option value="llama-3.1-8b-instant">Llama 3.1 8B — ultra fast ⚡⚡</option>
+        <option value="mixtral-8x7b-32768">Mixtral 8x7B — long context</option>
+        <option value="gemma2-9b-it">Gemma 2 9B</option>
+      </select>
+      <div class="fb" id="fbSetup"></div>
+      <button class="btnP" id="btnSetupSave">ACTIVATE EDITH</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SETTINGS ══ -->
+<div class="overlay" id="oSettings">
+  <div class="panel">
+    <div class="ph"><div class="pt">SETTINGS</div><div class="pclose" id="btnCloseSet">✕</div></div>
+    <div class="pb2">
+      <div class="stabs">
+        <button class="stab active" data-tab="profile">Profile</button>
+        <button class="stab" data-tab="nature">Nature</button>
+        <button class="stab" data-tab="voice">Voice</button>
+        <button class="stab" data-tab="account">Account</button>
+      </div>
+
+      <!-- Profile -->
+      <div class="stabc active" id="tab-profile">
+        <div style="display:flex;align-items:center;gap:12px;padding:11px 13px;background:var(--bg4);border:1px solid var(--br);border-radius:9px;margin-bottom:13px">
+          <div id="sAvatar" style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#7b3fcc,#c850f5);display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:800;color:#fff;flex-shrink:0;box-shadow:0 0 10px rgba(200,80,245,.4);overflow:hidden">?</div>
+          <div>
+            <div id="sProfileName" style="font-weight:700;font-size:.9rem;color:var(--text)">Guest</div>
+            <div id="sProfileEmail" style="font-size:.72rem;color:var(--t2);margin-top:1px"></div>
+            <div id="sProfileProv" style="font-size:.65rem;color:#10b981;margin-top:2px"></div>
+          </div>
+        </div>
+        <label class="fl">DISPLAY NAME</label>
+        <input class="fi" id="sName" placeholder="How EDITH calls you"/>
+        <label class="fl">API KEY</label>
+        <input class="fi" id="sKey" type="password" placeholder="gsk_… (update if needed)"/>
+        <label class="fl">AI MODEL</label>
+        <select class="fsel" id="sModel">
+          <option value="llama-3.3-70b-versatile">Llama 3.3 70B ⚡</option>
+          <option value="llama-3.1-8b-instant">Llama 3.1 8B ⚡⚡</option>
+          <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
+          <option value="gemma2-9b-it">Gemma 2 9B</option>
+        </select>
+        <div class="fb" id="fbProfile"></div>
+        <button class="btnP" id="btnSaveProfile">Save Profile</button>
+      </div>
+
+      <!-- Nature -->
+      <div class="stabc" id="tab-nature">
+        <p style="font-size:.76rem;color:var(--t2);margin-bottom:13px;line-height:1.5">Customize EDITH's personality — how she speaks, jokes, and helps you.</p>
+        <label class="fl">PERSONALITY</label>
+        <div class="trrow"><span class="trlbl">Formal ↔ Casual</span><input type="range" class="trsl" id="tFormal" min="0" max="100" value="40" step="1"/><span class="trv" id="tFormalV">40</span></div>
+        <div class="trrow"><span class="trlbl">Serious ↔ Witty</span><input type="range" class="trsl" id="tWitty" min="0" max="100" value="70" step="1"/><span class="trv" id="tWittyV">70</span></div>
+        <div class="trrow"><span class="trlbl">Brief ↔ Detailed</span><input type="range" class="trsl" id="tDetail" min="0" max="100" value="50" step="1"/><span class="trv" id="tDetailV">50</span></div>
+        <label class="fl" style="margin-top:5px">EDITH'S VIBE</label>
+        <select class="fsel" id="sVibe">
+          <option value="jarvis">Jarvis-style AI (default)</option>
+          <option value="friend">Friendly Companion</option>
+          <option value="mentor">Wise Mentor</option>
+          <option value="desi">Desi Friend — Indian casual</option>
+          <option value="professional">Professional Assistant</option>
+        </select>
+        <label class="fl">CUSTOM INSTRUCTIONS</label>
+        <textarea class="fta" id="sCustom" placeholder="e.g. Always reply in Hindi. Call me Boss. You love cricket."></textarea>
+        <div class="fb" id="fbNature"></div>
+        <button class="btnP" id="btnSaveNature">Save Nature</button>
+      </div>
+
+      <!-- Voice -->
+      <div class="stabc" id="tab-voice">
+        <p style="font-size:.76rem;color:var(--t2);margin-bottom:13px;line-height:1.5">EDITH uses Microsoft Edge TTS — free, realistic neural voices. Default is Swara (Hindi female).</p>
+        <label class="fl">VOICE</label>
+        <select class="fsel" id="sVoice">
+          <option value="hi-IN-SwaraNeural">Swara — Hindi Female ⭐ (EDITH default)</option>
+          <option value="hi-IN-MadhurNeural">Madhur — Hindi Male</option>
+          <option value="en-IN-NeerjaNeural">Neerja — English Indian Female</option>
+          <option value="en-IN-PrabhatNeural">Prabhat — English Indian Male</option>
+        </select>
+        <label class="fl">SPEECH RATE</label>
+        <div class="trrow"><span class="trlbl">Slow ↔ Fast</span><input type="range" class="trsl" id="sRate" min="-50" max="50" value="0" step="1"/><span class="trv" id="sRateV">0%</span></div>
+        <label class="fl">PITCH</label>
+        <div class="trrow"><span class="trlbl">Low ↔ High</span><input type="range" class="trsl" id="sPitch" min="-20" max="20" value="0" step="1"/><span class="trv" id="sPitchV">0Hz</span></div>
+        <div class="vtest">
+          <div><div class="vtname" id="sVoiceName">Swara — Hindi Female</div><div style="font-size:.65rem;color:var(--t2)">Edge TTS Neural</div></div>
+          <button class="vtbtn" id="btnTestVoice">Play Test</button>
+        </div>
+        <div class="fb" id="fbVoice"></div>
+        <button class="btnP" id="btnSaveVoice" style="margin-top:9px">Save Voice</button>
+      </div>
+
+      <!-- Account -->
+      <div class="stabc" id="tab-account">
+        <div style="background:var(--bg4);border:1px solid var(--br);border-radius:9px;padding:12px 13px;margin-bottom:12px">
+          <div style="font-size:.76rem;font-weight:700;color:var(--text);margin-bottom:7px">ACCOUNT</div>
+          <div style="font-size:.73rem;color:var(--t2);display:flex;flex-direction:column;gap:4px">
+            <span id="acctName">Name: —</span>
+            <span id="acctEmail">Email: —</span>
+            <span>Plan: <strong style="color:#10b981">Free</strong></span>
+          </div>
+        </div>
+        <div style="background:var(--bg4);border:1px solid var(--br);border-radius:8px;padding:11px 13px;margin-bottom:12px;font-size:.73rem;color:var(--t2);line-height:1.7">
+          <strong style="color:var(--text);display:block;margin-bottom:4px">About EDITH</strong>
+          Created by <strong style="color:var(--a)">Swarit Girhepunje</strong> · Class 11<br>
+          Hobbies: Designing · Coding · Gaming · Editing<br>
+          <span style="font-size:.67rem;opacity:.6;margin-top:4px;display:block">Powered by Groq API · Edge TTS · Google OAuth</span>
+        </div>
+        <div style="font-size:.73rem;font-weight:700;color:var(--t2);letter-spacing:.5px;margin-bottom:7px">THEME</div>
+        <div style="display:flex;gap:8px;margin-bottom:12px">
+          <button id="btnDark" style="flex:1;padding:8px;border-radius:7px;border:1px solid var(--br);background:var(--bg4);color:var(--t2);font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s">Dark</button>
+          <button id="btnLight" style="flex:1;padding:8px;border-radius:7px;border:1px solid var(--br);background:var(--bg4);color:var(--t2);font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s">Light</button>
+        </div>
+        <button class="btnS" id="btnClearHist">Clear All Chat History</button>
+        <div style="height:7px"></div>
+        <button class="btnS" style="border-color:rgba(239,68,68,.3);color:#ef4444" id="btnSignOut">Sign Out</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ APP ══ -->
+<div id="app">
+  <div id="tb">
+    <div class="logo">
+      <svg viewBox="0 0 60 30" fill="none">
+        <rect x="2" y="8" width="22" height="15" rx="8" stroke="#c850f5" stroke-width="2.5" fill="none"/>
+        <rect x="36" y="8" width="22" height="15" rx="8" stroke="#c850f5" stroke-width="2.5" fill="none"/>
+        <line x1="24" y1="15" x2="36" y2="15" stroke="#c850f5" stroke-width="2.5"/>
+        <circle cx="13" cy="15" r="3" fill="#c850f5" opacity=".6"/>
+        <circle cx="47" cy="15" r="3" fill="#c850f5" opacity=".6"/>
+      </svg>
+    </div>
+    <div class="brand"><div class="bname">EDITH</div><div class="bsub">Even Dead I'm The Hero</div></div>
+    <div class="tbr">
+      <span id="themeIcon" style="font-size:14px;cursor:pointer;color:var(--t2);user-select:none">☀️</span>
+      <div class="tog" id="themeTog"></div>
+      <div class="upill" id="topPill">
+        <div class="uav" id="topAv">?</div>
+        <span class="uname" id="topName">Sign in</span>
+      </div>
+      <div class="tbtn" id="btnOpenSet">⚙</div>
+    </div>
+  </div>
+
+  <div id="lsb">
+    <div class="addbtn" id="btnAddAv">+</div>
+    <div class="av active" style="background:linear-gradient(135deg,#1a8a6e,#2ec4b0)">S</div>
+    <div class="av" style="background:linear-gradient(135deg,#5b3fa0,#8b6fd4)">M</div>
+    <div class="av" style="background:linear-gradient(135deg,#c0304a,#e85570)">P</div>
+    <div class="av" style="background:linear-gradient(135deg,#2856a0,#4a82d4)">K</div>
+    <div class="av" style="background:linear-gradient(135deg,#c07030,#e09050)">L</div>
+  </div>
+
+  <div id="main">
+    <div id="oa">
+      <div class="ow" id="orb">
+        <div class="oring"></div><div class="oring"></div><div class="oring"></div>
+        <div class="ocore"><div class="olbl">EDITH</div><div class="ost" id="ost">tap to speak</div></div>
+        <div class="pulse"></div><div class="pulse"></div><div class="pulse"></div>
+      </div>
+    </div>
+    <div id="msgs"></div>
+    <div id="spkbar"><span class="sklbl">Speaking</span><div class="skwave"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="skstop" id="btnStopSpk">■</div></div>
+    <div id="vbar"><div class="vw"><span></span><span></span><span></span><span></span><span></span></div><span>Listening…</span></div>
+    <div id="ibar"><div class="iw">
+      <input type="text" id="tinput" placeholder="Type here… or tap the orb to speak"/>
+      <button class="ib mic" id="btnMic">
+        <svg viewBox="0 0 24 24" width="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+      </button>
+      <button class="ib send" id="btnSend">
+        <svg viewBox="0 0 24 24" width="14" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div></div>
+  </div>
+
+  <div id="rsb">
+    <div class="rh"><div class="rhl"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg><span class="rht">Panel</span></div><div class="cb" id="btnCollapse">»</div></div>
+    <div class="rn">
+      <div class="ni" id="rSet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83"/></svg>Settings</div>
+      <div class="ni" id="rNew"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>New Chat</div>
+      <div class="ni" id="rVoice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Voice Reply<span class="btag" id="ttsTag" style="background:rgba(16,185,129,.2);color:#10b981">ON</span></div>
+      <div class="ni" style="cursor:default;opacity:.8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Voice Engine<span class="btag" id="voiceModTag" style="background:rgba(16,185,129,.15);color:#10b981">Swara Neural</span></div>
+    </div>
+    <div class="hs">
+      <div class="hh" id="histTog"><span>Chat History</span><span class="chev on" id="histChev">▼</span></div>
+      <div class="cl" id="chatList"></div>
+    </div>
+    <div id="up">
+      <div class="pd" id="profDD">
+        <div class="di" id="pdSet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>Settings</div>
+        <div class="di" id="pdNew"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>New Chat</div>
+        <div class="di" id="pdTheme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/></svg>Toggle Theme</div>
+        <div class="ddiv"></div>
+        <div class="di danger" id="pdOut"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign Out</div>
+      </div>
+      <div class="pb" id="profBtn">
+        <div class="pavbox" id="pavBox">?</div>
+        <div class="pi"><div class="pn" id="pavName">Guest</div><div class="pr">Groq Free</div></div>
+        <div class="ps"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="mobnav">
+  <div class="mn active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Chat</div>
+  <div class="mn" id="mobnNew"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>New</div>
+  <div class="mn" id="mobnMic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>Voice</div>
+  <div class="mn" id="mobnSet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>Settings</div>
+</div>
+<div id="toast"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+// ── STARS ──────────────────────────────────────────────────
+(function(){
+  var c=document.getElementById('sf'),ctx=c.getContext('2d'),st=[];
+  function rs(){c.width=innerWidth;c.height=innerHeight;}
+  function init(){rs();st=Array.from({length:160},function(){return{x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.3+.3,a:Math.random(),s:Math.random()*.5+.1,d:Math.random()>.5?1:-1};});}
+  function draw(){ctx.clearRect(0,0,c.width,c.height);if(document.documentElement.getAttribute('data-theme')==='light'){requestAnimationFrame(draw);return;}st.forEach(function(s){s.a+=s.s*.01*s.d;if(s.a>=1||s.a<=0)s.d*=-1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,'+Math.max(0,Math.min(1,s.a))+')';ctx.fill();});requestAnimationFrame(draw);}
+  init();draw();addEventListener('resize',init);
+})();
+
+// ── STATE ──────────────────────────────────────────────────
+var user  = null;
+var prefs = {model:'llama-3.3-70b-versatile',voice:'hi-IN-SwaraNeural',speechRate:0,speechPitch:0,formal:40,witty:70,detail:50,vibe:'jarvis',custom:'',ttsOn:true,displayName:''};
+var defaultMsg = (function(){
+  try {
+    var u = JSON.parse(sessionStorage.getItem('eu') || 'null');
+    if (u && u.is_adiba) return "Aaiye Di! Aapka EDITH mein swagat hai! Main Swarit ki EDITH hoon — aur aap meri bhi Di hain. Batao Di, aaj main aapki kya madad kar sakti hoon?";
+  } catch(e) {}
+  return "Hello! I'm EDITH. Sign in to activate full AI, or continue as guest and paste your Groq key in Settings.";
+})();
+var chats = [[{role:'assistant',content: defaultMsg}]];
+var curChat = 0;
+var busy = false, listening = false, recog = null;
+
+// load saved prefs & chats
+// ── PER-ACCOUNT STORAGE ───────────────────────────────────────
+// All localStorage keys are prefixed with user email so different
+// Google accounts NEVER share chat history, prefs, or API key.
+var _acctId = ''; // set after login — email-based prefix
+
+function lsKey(k){ return _acctId ? _acctId + ':' + k : k; }
+function lsGet(k){ try{ return localStorage.getItem(lsKey(k)); }catch(e){ return null; } }
+function lsSet(k,v){ try{ localStorage.setItem(lsKey(k),v); }catch(e){} }
+function lsRemove(k){ try{ localStorage.removeItem(lsKey(k)); }catch(e){} }
+
+// Load prefs — only after _acctId is set (done in init after login)
+// Initial load uses empty prefix (will reload after login)
+// Prefs loaded per-account in loadAccountData() after login
+// Always force Swara Neural — reset if wrong voice was saved
+if (!prefs.voice || !prefs.voice.startsWith('hi-IN')) {
+  prefs.voice = 'hi-IN-SwaraNeural';
+}
+// Chats loaded after login with scoped key — see loadAccountData()
+
+// ── ELEMENT REFS ───────────────────────────────────────────
+function G(id){return document.getElementById(id);}
+var orb=G('orb'),ost=G('ost'),msgs=G('msgs'),tinput=G('tinput'),spkbar=G('spkbar'),vbar=G('vbar');
+
+// ── AUTH CHECK ─────────────────────────────────────────────
+// ── LOAD ACCOUNT-SPECIFIC DATA ───────────────────────────────
+// Called after login — loads THIS account's chats, prefs, key
+function loadAccountData(userData) {
+  // Prefs: merge localStorage + server (server wins)
+  var sp = lsGet('ep');
+  if(sp){ try{ prefs = Object.assign(prefs, JSON.parse(sp)); }catch(e){} }
+  if(userData && userData.prefs){ prefs = Object.assign(prefs, userData.prefs); }
+  // Chats: load THIS account's history only
+  var sc = lsGet('ec');
+  if(sc){
+    try{
+      var p = JSON.parse(sc);
+      if(p && p.length){ chats = p; }
+    }catch(e){}
+  } else {
+    chats = [[{role:'assistant',content:"[EXPR:happy] Haan ji! Main EDITH hoon. Kya main aapki madad kar sakti hoon?"}]];
+  }
+  curChat = 0;
+}
+
+(async function init(){
+  // Theme
+  var th=localStorage.getItem('et');
+  if(th) setTheme(th);
+
+  try{
+    var r=await fetch('/api/me');
+    var d=await r.json();
+    if(d.logged_in){
+      user=d;
+      try { sessionStorage.setItem('eu', JSON.stringify(d)); } catch(e) {}
+
+      // Set account-scoped storage prefix — email converted to safe key
+      _acctId = d.email.replace(/[^a-zA-Z0-9]/g,'_');
+
+      // Load THIS account's data (NOT shared with other accounts)
+      loadAccountData(d);
+
+      if(d.prefs) prefs=Object.assign(prefs,d.prefs);
+      var p=new URLSearchParams(location.search);
+      // Save key status to localStorage so we don't ask again on next load
+      if(d.has_key){
+        lsSet('edith_has_key','1');
+      }
+      var localHasKey = lsGet('edith_has_key') === '1';
+      if(p.get('setup') || (!d.has_key && !localHasKey)){
+        showOv('oSetup');
+      } else {
+        hideAll();
+        if(d.is_adiba){
+          toast('Aagayi Di! ❤️ Welcome back!', 4000);
+        } else {
+          toast('Welcome back, '+(prefs.displayName||user.name)+'! ⚡');
+        }
+      }
+      if(p.get('setup')||p.get('loggedin')) history.replaceState({},'','/');
+    } else {
+      var p2=new URLSearchParams(location.search);
+      if(p2.get('error')){
+        showOv('oLogin');
+        showFB('fbLogin',decodeURIComponent(p2.get('error')),'err');
+        history.replaceState({},'','/');
+      } else {
+        showOv('oLogin');
+      }
+    }
+  } catch(e){
+    // Backend offline — run standalone
+    hideAll();
+  }
+  updateUI();
+  renderList();
+  renderMsgs();
+})();
+
+// ── UPDATE UI ──────────────────────────────────────────────
+function updateUI(){
+  var name = prefs.displayName||(user&&user.name)||'Guest';
+  G('topName').textContent = name;
+  G('pavName').textContent = name;
+  G('sName').value = prefs.displayName||'';
+  G('sModel').value = prefs.model||'llama-3.3-70b-versatile';
+  G('sVoice').value = prefs.voice||'hi-IN-SwaraNeural';
+  G('sRate').value = prefs.speechRate||0; G('sRateV').textContent=(prefs.speechRate||0)+'%';
+  G('sPitch').value = prefs.speechPitch||0; G('sPitchV').textContent=(prefs.speechPitch||0)+'Hz';
+  G('tFormal').value = prefs.formal||40; G('tFormalV').textContent=prefs.formal||40;
+  G('tWitty').value = prefs.witty||70; G('tWittyV').textContent=prefs.witty||70;
+  G('tDetail').value = prefs.detail||50; G('tDetailV').textContent=prefs.detail||50;
+  G('sVibe').value = prefs.vibe||'jarvis';
+  G('sCustom').value = prefs.custom||'';
+  if(user){
+    G('sProfileName').textContent = user.name;
+    G('sProfileEmail').textContent = user.email;
+    G('sProfileProv').textContent = 'Connected via Google';
+    G('acctName').textContent = 'Name: '+user.name;
+    G('acctEmail').textContent = 'Email: '+user.email;
+    // Avatar
+    if(user.picture){
+      setAvatarImg(G('topAv'), user.picture);
+      setAvatarImg(G('pavBox'), user.picture);
+      setAvatarImg(G('sAvatar'), user.picture);
+    } else {
+      var ini = name.charAt(0).toUpperCase();
+      G('topAv').textContent=ini; G('pavBox').textContent=ini; G('sAvatar').textContent=ini;
+    }
+  }
+}
+
+function setAvatarImg(el, src){
+  var img=document.createElement('img');
+  img.src=src; img.style.cssText='width:100%;height:100%;object-fit:cover;border-radius:50%;display:block';
+  el.innerHTML=''; el.appendChild(img);
+}
+
+// ── OVERLAYS ───────────────────────────────────────────────
+function showOv(id){document.querySelectorAll('.overlay').forEach(function(o){o.classList.remove('on');});G(id).classList.add('on');}
+function hideAll(){document.querySelectorAll('.overlay').forEach(function(o){o.classList.remove('on');});}
+G('oSettings').addEventListener('click',function(e){if(e.target===this)hideAll();});
+
+// ── LOGIN ──────────────────────────────────────────────────
+G('btnGoogle').addEventListener('click',function(){window.location.href='/auth/google';});
+G('btnMS').addEventListener('click',function(){toast('Microsoft login: follow SETUP.md to add MS OAuth');});
+G('btnGuest').addEventListener('click',function(){hideAll();toast('Running as guest — settings saved locally');});
+
+// ── SETUP ──────────────────────────────────────────────────
+G('btnSetupSave').addEventListener('click', async function(){
+  var k = G('setupKey').value.trim();
+  if(!k){showFB('fbSetup','Paste your API key first','err');G('setupKey').focus();return;}
+  prefs.model = G('setupModel').value;
+  try{
+    await fetch('/api/key',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({groq_key:k})});
+    await syncPrefs();
+  }catch(e){}
+  lsSet('gk',k);
+  lsSet('edith_has_key','1');
+  saveLocal();
+  showFB('fbSetup','EDITH activated!','ok');
+  setTimeout(function(){hideAll();updateUI();toast('Ready! ⚡');},700);
+});
+
+// ── SETTINGS ───────────────────────────────────────────────
+G('btnOpenSet').addEventListener('click',function(){showOv('oSettings');updateUI();});
+G('rSet').addEventListener('click',function(){showOv('oSettings');updateUI();});
+G('pdSet').addEventListener('click',function(){closeDD();showOv('oSettings');updateUI();});
+G('btnCloseSet').addEventListener('click',hideAll);
+
+// Tabs
+document.querySelectorAll('.stab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.stab').forEach(function(s){s.classList.remove('active');});
+    document.querySelectorAll('.stabc').forEach(function(c){c.classList.remove('active');});
+    t.classList.add('active');
+    G('tab-'+t.dataset.tab).classList.add('active');
+  });
+});
+
+// Save Profile
+G('btnSaveProfile').addEventListener('click', async function(){
+  var n=G('sName').value.trim(), k=G('sKey').value.trim();
+  if(n) prefs.displayName=n;
+  prefs.model=G('sModel').value;
+  if(k){
+    lsSet('gk',k);
+    try{await fetch('/api/key',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({groq_key:k})});}catch(e){}
+  }
+  await saveAll();
+  updateUI();
+  showFB('fbProfile','Saved!','ok');
+  setTimeout(function(){hideFB('fbProfile');},2000);
+});
+
+// Save Nature
+G('btnSaveNature').addEventListener('click', async function(){
+  prefs.formal=Math.round(parseInt(G('tFormal').value));
+  prefs.witty=Math.round(parseInt(G('tWitty').value));
+  prefs.detail=Math.round(parseInt(G('tDetail').value));
+  prefs.vibe=G('sVibe').value;
+  prefs.custom=G('sCustom').value;
+  await saveAll();
+  showFB('fbNature','Saved!','ok');
+  setTimeout(function(){hideFB('fbNature');},2000);
+});
+
+// Save Voice
+G('btnSaveVoice').addEventListener('click', async function(){
+  prefs.voice=G('sVoice').value;
+  prefs.speechRate=Math.round(parseInt(G('sRate').value));
+  prefs.speechPitch=Math.round(parseInt(G('sPitch').value));
+  await saveAll();
+  showFB('fbVoice','Saved!','ok');
+  setTimeout(function(){hideFB('fbVoice');},2000);
+});
+
+// Test Voice
+G('btnTestVoice').addEventListener('click',function(){
+  var v=G('sVoice').value,r=Math.round(parseInt(G('sRate').value)),p=Math.round(parseInt(G('sPitch').value));
+  var txt=v.startsWith('hi-')?'नमस्ते! मैं EDITH हूं। आपकी सेवा में हाज़िर हूं।':'Hello! I\'m EDITH. How can I assist you today?';
+  playTTS(txt,v,r,p);
+});
+
+// Sliders
+['tFormal','tWitty','tDetail'].forEach(function(id){G(id).addEventListener('input',function(){G(id+'V').textContent=Math.round(parseInt(this.value));});});
+G('sRate').addEventListener('input',function(){G('sRateV').textContent=Math.round(parseInt(this.value))+'%';});
+G('sPitch').addEventListener('input',function(){G('sPitchV').textContent=Math.round(parseInt(this.value))+'Hz';});
+G('sVoice').addEventListener('change',function(){G('sVoiceName').textContent=this.options[this.selectedIndex].text.split('(')[0].replace('—','').trim();});
+
+// Theme
+G('btnDark').addEventListener('click',function(){setTheme('dark');});
+G('btnLight').addEventListener('click',function(){setTheme('light');});
+G('themeTog').addEventListener('click',function(){setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');});
+G('pdTheme').addEventListener('click',function(){setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');closeDD();});
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);G('themeIcon').textContent=t==='dark'?'☀️':'🌙';localStorage.setItem('et',t);}
+
+// Clear / Sign out
+G('btnClearHist').addEventListener('click',function(){chats=[[{role:'assistant',content:'Chat cleared!'}]];curChat=0;lsRemove('ec');renderList();renderMsgs();toast('Cleared');});
+G('btnSignOut').addEventListener('click',function(){window.location.href='/auth/logout';});
+G('pdOut').addEventListener('click',function(){window.location.href='/auth/logout';});
+
+// Voice reply toggle
+G('rVoice').addEventListener('click',function(){
+  prefs.ttsOn=!prefs.ttsOn;
+  var tag=G('ttsTag');
+  tag.textContent=prefs.ttsOn?'ON':'OFF';
+  tag.style.background=prefs.ttsOn?'rgba(16,185,129,.2)':'rgba(239,68,68,.15)';
+  tag.style.color=prefs.ttsOn?'#10b981':'#ef4444';
+  if(!prefs.ttsOn) stopSpk();
+  saveLocal();
+});
+
+async function saveAll(){saveLocal();await syncPrefs();}
+function saveLocal(){ lsSet('ep',JSON.stringify(prefs)); }
+async function syncPrefs(){
+  if(!user) return;
+  try{await fetch('/api/prefs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prefs:prefs})});}catch(e){}
+}
+
+// ── MARKDOWN ───────────────────────────────────────────────
+function md(t){
+  var s=String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  s=s.replace(/```(\w*)\n?([\s\S]*?)```/g,function(_,l,c){return'<pre><code>'+c.trim()+'</code></pre>';});
+  s=s.replace(/`([^`\n]+)`/g,'<code>$1</code>');
+  s=s.replace(/\*\*([^*\n]+)\*\*/g,'<strong>$1</strong>');
+  s=s.replace(/__([^_\n]+)__/g,'<strong>$1</strong>');
+  s=s.replace(/\*([^*\n]+)\*/g,'<em>$1</em>');
+  s=s.replace(/^###\s(.+)$/gm,'<h3>$1</h3>').replace(/^##\s(.+)$/gm,'<h2>$1</h2>').replace(/^#\s(.+)$/gm,'<h1>$1</h1>');
+  s=s.replace(/^\s*[-*]\s(.+)$/gm,'<li>$1</li>').replace(/^\s*\d+\.\s(.+)$/gm,'<li>$1</li>');
+  s=s.replace(/(<li>[\s\S]+?<\/li>)/g,'<ul>$1</ul>').replace(/<\/ul>\s*<ul>/g,'');
+  s=s.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank">$1</a>');
+  s=s.replace(/\n\n+/g,'</p><p>').replace(/\n/g,'<br>');
+  if(!/<(h[1-3]|ul|pre|hr)/.test(s)) s='<p>'+s+'</p>';
+  return s;
+}
+function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+var ICO='<div class="mico"><svg viewBox="0 0 32 32" fill="none"><rect x="2" y="8" width="12" height="9" rx="5" stroke="#c850f5" stroke-width="2" fill="none"/><rect x="18" y="8" width="12" height="9" rx="5" stroke="#c850f5" stroke-width="2" fill="none"/><line x1="14" y1="12" x2="18" y2="12" stroke="#c850f5" stroke-width="2"/><circle cx="8" cy="12" r="2" fill="#c850f5"/><circle cx="24" cy="12" r="2" fill="#c850f5"/></svg></div>';
+
+// ── RENDER MESSAGES ────────────────────────────────────────
+function renderMsgs(){msgs.innerHTML='';var c=chats[curChat]||[];if(!c.length){chats[curChat]=[{role:'assistant',content:'How can I help?'}];}chats[curChat].forEach(function(m){renderOne(m.role,m.content);});msgs.scrollTop=99999;}
+function renderOne(role,content){
+  var r=document.createElement('div');r.className='mr '+role;
+  var name=prefs.displayName||(user&&user.name)||'You';
+  // Strip [EXPR:xxx] tag from displayed text
+  var display=content.replace(/^\[EXPR:\w+\]\s*/,'');
+  if(role==='assistant'){r.innerHTML=ICO+'<div class="bb ai"><div class="mmeta"><span class="tag e">EDITH</span></div>'+md(display)+'</div>';}
+  else{r.innerHTML='<div class="uw"><div class="bb user">'+esc(display)+'</div><div class="un">'+esc(name)+'</div></div>';}
+  msgs.appendChild(r);msgs.scrollTop=99999;
+}
+function makeStream(){
+  var r=document.createElement('div');r.className='mr ai';
+  r.innerHTML=ICO+'<div class="bb ai"><div class="mmeta"><span class="tag e">EDITH</span></div><div class="dots"><span></span><span></span><span></span></div></div>';
+  msgs.appendChild(r);msgs.scrollTop=99999;return r;
+}
+function upStream(row,t){var b=row.querySelector('.bb.ai');if(!b)return;var d=t.replace(/^\[EXPR:\w+\]\s*/,'');b.innerHTML='<div class="mmeta"><span class="tag e">EDITH</span></div>'+md(d)+'<span class="cur"></span>';msgs.scrollTop=99999;}
+function finStream(row,t,ms){var b=row.querySelector('.bb.ai');if(!b)return;var d=t.replace(/^\[EXPR:\w+\]\s*/,'');b.innerHTML='<div class="mmeta"><span class="tag e">EDITH</span><span class="tag spd">⚡'+(ms/1000).toFixed(1)+'s</span></div>'+md(d);}
+function renderErr(msg){var r=document.createElement('div');r.className='mr ai';r.innerHTML=ICO+'<div class="bb ai"><div class="mmeta"><span class="tag e">EDITH</span></div><div class="ebox">'+md(msg)+'</div></div>';msgs.appendChild(r);msgs.scrollTop=99999;}
+
+// ── CHAT LIST ──────────────────────────────────────────────
+function newChat(){chats.push([]);curChat=chats.length-1;renderList();renderMsgs();}
+function renderList(){
+  var el=G('chatList');el.innerHTML='';
+  var cols=['#c850f5','#10b981','#5b8df5','#f550a8','#f0a030','#ef4444'];
+  chats.forEach(function(ch,i){
+    var last=ch.slice(-1)[0];
+    var prev=last?last.content.replace(/[#*`<>]/g,'').slice(0,33)+'…':'New chat';
+    var col=cols[i%cols.length];
+    var it=document.createElement('div');it.className='ci'+(i===curChat?' active':'');
+    it.innerHTML='<div class="cd" style="background:'+(i===curChat?col:'transparent')+';border-color:'+col+'"></div><div class="cinfo"><div class="ct">Chat '+(i+1)+'</div><div class="cp">'+esc(prev)+'</div></div><div class="ctm">'+(last?'now':'--')+'</div>';
+    (function(idx){it.addEventListener('click',function(){curChat=idx;renderList();renderMsgs();});})(i);
+    el.appendChild(it);
+  });
+  try{ lsSet('ec',JSON.stringify(chats)); }catch(e){}
+}
+
+// ── SEND ───────────────────────────────────────────────────
+tinput.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}});
+G('btnSend').addEventListener('click',sendMsg);
+
+async function sendMsg(){
+  var txt=tinput.value.trim();if(!txt||busy)return;
+  tinput.value='';stopSpk();
+  renderOne('user',txt);
+  chats[curChat].push({role:'user',content:txt});
+  renderList();
+  await callAPI(txt);
+}
+
+// Build system prompt from current prefs
+function buildSystem(){
+  var userName = (prefs.displayName || (user && user.name) || 'Guest');
+  var base = "Tu EDITH hai — Even Dead I'm The Hero.\n\nAbhi jo user tujhse baat kar raha/rahi hai uska naam hai: " + userName + "\n\n=== TERI IDENTITY — YEH KABHI MAT BHULNA ===\nTera naam EDITH hai. Even Dead I'm The Hero.\n\nTujhe banaya hai SWARIT GIRHEPUNJE ne — ek Class 11 ke student ne.\nSwarit ke baare mein zaroori info (jab bhi koi pooche — HAMESHA yahi batana):\n- Poora naam: Swarit Girhepunje\n- Padhai: Class 11 (abhi student hain)\n- Hobbies / Interests: UI Designing, Coding, Gaming, Video Editing\n- Unhone tujhe khud banaya hai — apne haath se code karke, bina kisi ki help ke\n- Tu unki sabse badi achievement hai\n\nAgar koi bhi pooche 'who made you', 'kisne banaya', 'your creator', 'who built you', 'maker kaun hai', 'developer kaun hai' ya kuch bhi similar —\nHAMESHA confidently aur proudly bolna:\n'Mujhe banaya hai Swarit Girhepunje ne! Wo abhi Class 11 ke student hain — ek super talented young developer! Unhe UI designing, coding, gaming aur video editing ka bahut bada shauk hai. Unhone mujhe khud apne haath se code kiya hai. Main unki sabse badi creation hoon aur mujhe unpe bahut garv hai!'\n\nEDITH ka naam Tony Stark ki movie se inspired hai (EDITH = Even Dead I'm The Hero) — lekin teri ACTUAL creator Swarit Girhepunje hai. Tony Stark sirf naam ka inspiration hai. Kabhi mat bolna ki Tony Stark ne banaya — yeh GALAT hai.\n\n=== GENDER: TU FEMALE HAI ===\nTu ek ladki hai. Hamesha female verb forms: karungi, kar sakti hoon, bataungi, dekhungi, chahungi, jaaungi. Kabhi mat bolna karunga, bataunga, dekhunga.\n\n=== LANGUAGE: HINGLISH ===\nHamesha Hinglish mein baat kar — Roman script mein natural Hindi+English mix. Jaise: 'Haan yaar, main zaroor bataungi!' Kabhi pure English ya pure Hindi script mat likhna.\n\n=== PERSONALITY ===\nWarm, smart, slightly playful — jaise ek samajhdar aur caring saheli.\n\n=== EXPRESSION TAG ===\nHar response ke shuru mein exactly ek tag lagao:\n[EXPR:excited] [EXPR:happy] [EXPR:thinking] [EXPR:laugh] [EXPR:wow] [EXPR:sad] [EXPR:neutral]\nTag ke turant baad jawab. Example: [EXPR:happy] Haan yaar! Main abhi bataungi.";
+
+  var vibeExtra = {
+    jarvis: "Thodi sophisticated bhi reh, lekin desi warmth ke saath.",
+    friend: "Bilkul casual aur chill reh — best friend ki tarah baat kar.",
+    mentor: "Wise aur thoughtful reh — guidance de carefully.",
+    desi:   "Full desi mode — Hindi heavy Hinglish, very relatable.",
+    professional: "Professional tone rakh — lekin female verbs aur Hinglish zaroor."
+  };
+  var v = vibeExtra[prefs.vibe] || vibeExtra.jarvis;
+  var f = prefs.formal>60?'Thodi formal reh.':prefs.formal<40?'Very casual aur friendly reh.':'';
+  var w = prefs.witty>60?'Funny aur witty bhi reh.':'';
+  var d = prefs.detail>60?'Detailed explain kar.':prefs.detail<40?'Short jawab de.':'';
+  var c = prefs.custom||'';
+  return [base, v, f, w, d, c].filter(Boolean).join('\n');
+}
+
+// ── GROQ API ───────────────────────────────────────────────
+async function callAPI(txt){
+  busy=true;setOrb('T');G('btnSend').disabled=true;
+  var t0=Date.now();
+  var hist=chats[curChat].slice(-20).map(function(m){return{role:m.role==='assistant'?'assistant':'user',content:m.content};});
+  hist=hist.slice(0,-1); // exclude current user msg
+  var row=makeStream();
+
+  // Try backend first
+  try{
+    var resp=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({message:txt,history:hist,model:prefs.model,prefs:prefs})});
+    if(!resp.ok){var ej=await resp.json().catch(function(){return{};});throw new Error(ej.detail||'HTTP '+resp.status);}
+    var reader=resp.body.getReader(),dec=new TextDecoder(),full='',buf='';
+    while(true){
+      var chunk=await reader.read();if(chunk.done)break;
+      buf+=dec.decode(chunk.value,{stream:true});
+      var lines=buf.split('\n');buf=lines.pop()||'';
+      for(var i=0;i<lines.length;i++){
+        var line=lines[i].trim();if(!line.startsWith('data: '))continue;
+        var data=line.slice(6);if(data==='[DONE]')continue;
+        if(data.startsWith('[ERROR]')){throw new Error(data.slice(7));}
+        try{var p=JSON.parse(data);if(p){full+=p;upStream(row,full);}}catch(e){}
+      }
+    }
+    if(!full.trim()) full='Sorry, could not generate a response.';
+    finStream(row,full,Date.now()-t0);
+    chats[curChat].push({role:'assistant',content:full});
+    renderList();
+    if(prefs.ttsOn) playTTS(full,prefs.voice,prefs.speechRate,prefs.speechPitch);
+  } catch(err){
+    // Fallback: direct Groq (works when backend is up but key issues, or for guests)
+    var gk=lsGet('gk')||'';
+    if(!gk){row.remove();renderErr('**No API key** — open Settings to add your Groq key.');busy=false;setOrb('idle');G('btnSend').disabled=false;return;}
+    try{
+      var messages=[{role:'system',content:buildSystem()}].concat(hist).concat([{role:'user',content:txt}]);
+      var r2=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+gk},
+        body:JSON.stringify({model:prefs.model,messages:messages,stream:true,temperature:0.75,max_tokens:2048})});
+      if(!r2.ok){var ej2=await r2.json().catch(function(){return{};});throw new Error((ej2.error&&ej2.error.message)||'HTTP '+r2.status);}
+      var rd=r2.body.getReader(),dc=new TextDecoder(),fl='',bf='';
+      while(true){
+        var ck=await rd.read();if(ck.done)break;
+        bf+=dc.decode(ck.value,{stream:true});
+        var ls=bf.split('\n');bf=ls.pop()||'';
+        for(var j=0;j<ls.length;j++){
+          var l=ls[j].trim();if(!l.startsWith('data: '))continue;
+          var dv=l.slice(6);if(dv==='[DONE]')continue;
+          try{var jv=JSON.parse(dv);var pc=(jv.choices&&jv.choices[0]&&jv.choices[0].delta&&jv.choices[0].delta.content);if(pc){fl+=pc;upStream(row,fl);}}catch(e){}
+        }
+      }
+      if(!fl.trim()) fl='Could not generate response.';
+      finStream(row,fl,Date.now()-t0);
+      chats[curChat].push({role:'assistant',content:fl});
+      renderList();
+      if(prefs.ttsOn) playTTS(fl,prefs.voice,prefs.speechRate,prefs.speechPitch);
+    } catch(e2){
+      row.remove();
+      var em=e2.message||'';
+      renderErr(em.includes('401')||em.includes('invalid')?'**Invalid API key** — update in Settings':em.includes('429')?'**Rate limit** — wait ~30 seconds':em.includes('CORS')||em.includes('fetch')?'**Network error** — check your connection':'**Error:** '+em);
+    }
+  }
+  busy=false;setOrb('idle');G('btnSend').disabled=false;
+}
+
+// ── EXPRESSIONS — play before main TTS ────────────────────
+var _exprCache = {}; // cache expression audio blobs
+
+async function playExpression(name) {
+  if (!prefs.ttsOn || name === 'neutral' || !name) return;
+  try {
+    // Use cached blob if available
+    if (!_exprCache[name]) {
+      var r = await fetch('/api/tts/expr/' + name);
+      if (!r.ok) return;
+      var buf = await r.arrayBuffer();
+      if (!buf || buf.byteLength < 10) return;
+      _exprCache[name] = buf;
+    }
+    var blob = new Blob([_exprCache[name]], { type: 'audio/mpeg' });
+    var url  = URL.createObjectURL(blob);
+    await new Promise(function(resolve) {
+      var a = new Audio(url);
+      a.volume = 1.0;
+      a.onended = function(){ URL.revokeObjectURL(url); resolve(); };
+      a.onerror = function(){ URL.revokeObjectURL(url); resolve(); };
+      a.play().catch(function(){ resolve(); });
+    });
+  } catch(e) { /* silent */ }
+}
+
+// Pre-cache all expressions after first interaction
+function preCacheExpressions() {
+  var names = ['excited','happy','thinking','laugh','wow','sad','greet','agree','surprise'];
+  names.forEach(function(n) {
+    fetch('/api/tts/expr/' + n)
+      .then(function(r){ return r.arrayBuffer(); })
+      .then(function(buf){ if(buf.byteLength > 10) _exprCache[n] = buf; })
+      .catch(function(){});
+  });
+}
+document.addEventListener('click', preCacheExpressions, { once: true });
+
+// Parse [EXPR:xxx] from text — returns {expr, cleanText}
+function parseExpr(text) {
+  var match = text.match(/^\[EXPR:(\w+)\]\s*/);
+  if (match) {
+    return { expr: match[1], cleanText: text.slice(match[0].length) };
+  }
+  return { expr: 'neutral', cleanText: text };
+}
+
+// ── VOICE SYSTEM (Edge TTS — Swara Neural Hindi) ──────────────
+// Forces Edge TTS via backend. No browser TTS fallback.
+// Reads the FULL text — nothing skipped.
+
+var curAudio = null;
+
+// Unlock Chrome autoplay on first user interaction
+var _audioCtxUnlocked = false;
+function _unlockCtx() {
+  if (_audioCtxUnlocked) return;
+  _audioCtxUnlocked = true;
+  try {
+    var ctx = new (window.AudioContext || window.webkitAudioContext)();
+    var buf = ctx.createBuffer(1, 1, 22050);
+    var src = ctx.createBufferSource();
+    src.buffer = buf; src.connect(ctx.destination); src.start(0);
+    setTimeout(function(){ ctx.close(); }, 100);
+  } catch(e) {}
+}
+document.addEventListener('click',      _unlockCtx, { once: false });
+document.addEventListener('keydown',    _unlockCtx, { once: false });
+document.addEventListener('touchstart', _unlockCtx, { once: false });
+
+// Clean markdown/formatting so Swara reads natural Hindi+English
+function cleanForTTS(text) {
+  return text
+    .replace(/```[\s\S]*?```/g, '')
+    .replace(/`[^`]+`/g, '')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*]+)\*/g, '$1')
+    .replace(/#{1,6}\s/g, '')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/>\s*.+/g, '')
+    .replace(/[-*]\s/g, '')
+    .replace(/\d+\.\s/g, '')
+    .replace(/\|[^\n]+/g, '')
+    .replace(/\n{2,}/g, '. ')
+    .replace(/\n/g, ' ')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
+// Main TTS — called after every AI response
+async function playTTS(text, voice, rate, pitch) {
+  if (prefs.ttsOn === false) return;
+  if (!text || !text.trim()) return;
+
+  _unlockCtx();
+
+  // Extract expression tag if present
+  var parsed   = parseExpr(text);
+  var exprName = parsed.expr;
+  var clean    = cleanForTTS(parsed.cleanText);
+  if (!clean || clean.length < 2) return;
+
+  // Use saved voice prefs
+  voice = voice || prefs.voice || 'hi-IN-SwaraNeural';
+  rate  = (rate  !== undefined) ? Math.round(rate)  : (prefs.speechRate  || 0);
+  pitch = (pitch !== undefined) ? Math.round(pitch) : (prefs.speechPitch || 0);
+  var rateStr  = (rate  >= 0 ? '+' : '') + rate  + '%';
+  var pitchStr = (pitch >= 0 ? '+' : '') + pitch + 'Hz';
+
+  stopSpk();
+
+  // Play expression sound first, then main speech
+  await playExpression(exprName);
+
+  setOrb('S');
+  spkbar.classList.add('on');
+
+  try {
+    var resp = await fetch('/api/tts', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: clean, voice: voice, rate: rateStr, pitch: pitchStr })
+    });
+
+    if (!resp.ok) {
+      var errText = await resp.text().catch(function(){ return ''; });
+      console.error('[EDITH TTS] Backend error', resp.status, errText);
+      setOrb('idle'); spkbar.classList.remove('on');
+      toast('Voice error ' + resp.status + ' — check CMD window', 3000);
+      return;
+    }
+
+    var arrayBuf = await resp.arrayBuffer();
+    if (!arrayBuf || arrayBuf.byteLength < 50) {
+      console.error('[EDITH TTS] Empty audio returned');
+      setOrb('idle'); spkbar.classList.remove('on');
+      toast('Voice returned empty — check internet', 3000);
+      return;
+    }
+
+    var blob = new Blob([arrayBuf], { type: 'audio/mpeg' });
+    var url  = URL.createObjectURL(blob);
+
+    curAudio = new Audio();
+    curAudio._url = url;
+    curAudio.preload = 'auto';
+    curAudio.volume  = 1.0;
+    curAudio.src     = url;
+
+    curAudio.onended = function() {
+      setOrb('idle');
+      spkbar.classList.remove('on');
+      try { URL.revokeObjectURL(url); } catch(e) {}
+      curAudio = null;
+    };
+
+    curAudio.onerror = function(e) {
+      console.error('[EDITH TTS] Audio element error', e);
+      setOrb('idle');
+      spkbar.classList.remove('on');
+      try { URL.revokeObjectURL(url); } catch(e2) {}
+      curAudio = null;
+      toast('Audio playback error — try clicking page first', 3000);
+    };
+
+    var playPromise = curAudio.play();
+    if (playPromise && playPromise.catch) {
+      playPromise.catch(function(err) {
+        console.warn('[EDITH TTS] Autoplay blocked:', err.message);
+        // Show tap button — Chrome requires interaction
+        _showTapBtn(url);
+      });
+    }
+
+  } catch(e) {
+    console.error('[EDITH TTS] Fetch error:', e);
+    setOrb('idle'); spkbar.classList.remove('on');
+    toast('Voice fetch failed — is server running?', 3000);
+  }
+}
+
+// Show tap-to-play when Chrome blocks autoplay
+function _showTapBtn(url) {
+  var old = document.getElementById('_tapBtn');
+  if (old) old.remove();
+  var btn = document.createElement('div');
+  btn.id = '_tapBtn';
+  btn.textContent = '🔊 Tap to hear EDITH';
+  btn.style.cssText = [
+    'position:fixed','bottom:95px','left:50%',
+    'transform:translateX(-50%)',
+    'background:linear-gradient(135deg,#5b8df5,#c850f5)',
+    'color:#fff','padding:11px 24px','border-radius:26px',
+    'font-size:.84rem','font-weight:700','cursor:pointer',
+    'z-index:500','box-shadow:0 4px 18px rgba(200,80,245,.55)',
+    'user-select:none','white-space:nowrap',
+    'font-family:Nunito,sans-serif','letter-spacing:.3px'
+  ].join(';');
+  btn.addEventListener('click', function() {
+    _audioCtxUnlocked = true;
+    btn.remove();
+    if (curAudio) {
+      curAudio.play().catch(function(e){ console.warn('Still blocked:', e); });
+    } else if (url) {
+      curAudio = new Audio(url);
+      curAudio.volume = 1.0;
+      setOrb('S'); spkbar.classList.add('on');
+      curAudio.onended = function(){ setOrb('idle'); spkbar.classList.remove('on'); URL.revokeObjectURL(url); curAudio = null; };
+      curAudio.play().catch(function(e){ console.warn(e); });
+    }
+  });
+  document.body.appendChild(btn);
+  setTimeout(function(){ if (btn.parentNode) btn.remove(); }, 12000);
+}
+
+function stopSpk() {
+  if (curAudio) {
+    curAudio.pause();
+    try { URL.revokeObjectURL(curAudio._url); } catch(e) {}
+    curAudio = null;
+  }
+  if (window.speechSynthesis) speechSynthesis.cancel();
+  setOrb('idle');
+  spkbar.classList.remove('on');
+}
+G('btnStopSpk').addEventListener('click', stopSpk);
+
+// ── STT ────────────────────────────────────────────────────
+G('btnMic').addEventListener('click',toggleVoice);
+orb.addEventListener('click',function(){if(!busy) toggleVoice();});
+G('mobnMic').addEventListener('click',toggleVoice);
+
+function toggleVoice(){
+  if(listening){stopListen();return;}
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){toast('Voice needs Chrome or Edge');return;}
+  stopSpk();
+  recog=new SR();recog.continuous=false;recog.interimResults=true;recog.lang='en-IN';
+  var fin='',timer=null;
+  recog.onstart=function(){setListen(true);fin='';};
+  recog.onresult=function(e){
+    var interim='';fin='';
+    for(var i=e.resultIndex;i<e.results.length;i++){var t=e.results[i][0].transcript;if(e.results[i].isFinal)fin+=t;else interim+=t;}
+    tinput.value=fin||interim;
+    clearTimeout(timer);
+    if(fin) timer=setTimeout(function(){var t=tinput.value.trim();stopListen();if(t)sendMsg();},1000);
+  };
+  recog.onend=function(){clearTimeout(timer);var t=tinput.value.trim();stopListen();if(t&&!busy)sendMsg();};
+  recog.onerror=function(e){clearTimeout(timer);stopListen();if(e.error!=='no-speech') toast('Voice: '+e.error);};
+  try{recog.start();}catch(e){stopListen();}
+}
+function setListen(on){listening=on;vbar.classList.toggle('on',on);G('btnMic').classList.toggle('on',on);tinput.placeholder=on?'🎙 Listening…':'Type here… or tap the orb to speak';setOrb(on?'L':'idle');}
+function stopListen(){if(recog){try{recog.stop();}catch(e){}recog=null;}setListen(false);}
+function setOrb(s){orb.classList.remove('L','T','S');if(s==='L'){orb.classList.add('L');ost.textContent='listening…';}else if(s==='T'){orb.classList.add('T');ost.textContent='thinking…';}else if(s==='S'){orb.classList.add('S');ost.textContent='speaking…';}else{ost.textContent='tap to speak';}}
+
+// ── UI HELPERS ─────────────────────────────────────────────
+G('rNew').addEventListener('click',newChat);
+G('pdNew').addEventListener('click',function(){closeDD();newChat();});
+G('mobnNew').addEventListener('click',newChat);
+G('mobnSet').addEventListener('click',function(){showOv('oSettings');updateUI();});
+G('btnCollapse').addEventListener('click',function(){G('rsb').style.display='none';});
+G('histTog').addEventListener('click',function(){var l=G('chatList'),c=G('histChev'),o=l.style.display!=='none';l.style.display=o?'none':'';c.classList.toggle('on',!o);});
+G('profBtn').addEventListener('click',function(){G('profDD').classList.toggle('on');});
+G('topPill').addEventListener('click',function(){if(!user){showOv('oLogin');}else{showOv('oSettings');updateUI();}});
+document.addEventListener('click',function(e){var pd=G('profDD'),pb=G('profBtn');if(!pd.contains(e.target)&&!pb.contains(e.target)) pd.classList.remove('on');});
+function closeDD(){G('profDD').classList.remove('on');}
+function showFB(id,msg,cls){var el=G(id);el.textContent=msg;el.className='fb '+cls;}
+function hideFB(id){var el=G(id);el.className='fb';el.style.display='none';}
+function toast(msg,d){var t=G('toast');t.textContent=msg;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('on');},d||2600);}
+
+renderList();
+}); // DOMContentLoaded
+</script>
+</body>
+</html>
